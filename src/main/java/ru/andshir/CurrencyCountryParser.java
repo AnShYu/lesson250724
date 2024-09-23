@@ -30,13 +30,13 @@ public class CurrencyCountryParser {
 
     /* If there is more than one country corresponding to the currency code, the value for the respective
     key (currency code) will be a String containing all the corresponding countries separated by semicolon and space*/
-    private Map<String, String> makeCurrencyCountryMap(String input) {
+    private HashMap<String, String> makeCurrencyCountryMap(String input) {
         if (input == null) {
             throw new IllegalArgumentException("Provided argument is null");
         } else if (!input.matches("([А-Я].*#[A-Z]{3}/)*([А-Я].*#[A-Z]{3})")) {
             throw new IllegalArgumentException("Input string does not match the supported pattern");
         } else {
-            Map<String, String> resultingMap = new HashMap<>();
+            HashMap<String, String> resultingMap = new HashMap<>();
             Stream.of(input)
                     .map(s -> s.split("/"))
                     .flatMap(Arrays::stream)
