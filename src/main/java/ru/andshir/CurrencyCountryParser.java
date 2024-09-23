@@ -3,6 +3,7 @@ package ru.andshir;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class CurrencyCountryParser {
 
@@ -16,6 +17,7 @@ public class CurrencyCountryParser {
                 "Венгрия#HUF/Венесуэла#VEB/Восточный Тимор; Индонезия#IDR/" +
                 "Вьетнам#VND/Габон; Камерун; Конго; Центрально-Африканская Республика; Чад; Экваториальная Гвинея#XAF/" +
                 "Гаити#HTG/Гайана#GYD/Гамбия#GMD/Колумбия#COP/Коморские острова#KMF/Коста-Рика#CRC/Куба#CUP";
+
 
         CurrencyCountryParser ccp = new CurrencyCountryParser();
 
@@ -35,8 +37,10 @@ public class CurrencyCountryParser {
             throw new IllegalArgumentException("Input string does not match the supported pattern");
         } else {
             Map<String, String> resultingMap = new HashMap<>();
-            Arrays.stream(input.split("/"))
-                    .map(stringArray -> stringArray.split("#"))
+            Stream.of(input)
+                    .map(s -> s.split("/"))
+                    .flatMap(Arrays::stream)
+                    .map(s -> s.split("#"))
                     .forEach(stringArray -> resultingMap.put(stringArray[1], stringArray[0]));
             return resultingMap;
         }
